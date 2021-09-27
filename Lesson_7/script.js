@@ -131,6 +131,47 @@ function move() {
     } else if (new_unit == undefined && direction == 'y-') {
         new_unit = document.getElementsByClassName('cell-' + (0) + '-' + (coord_x))[0];
     }
+    function obstacleOnPath(unit) {
+        var obstacleCheck = false;
+        var unitClasses = unit.getAttribute("class").split(" ");
+        if (unitClasses.includes("problem-unit")) {
+            obstacleCheck = true;
+        }
+        return obstacleCheck;
+    }
+    
+    /*
+     * Проверка на змейку
+     * @param unit
+     * @returns {boolean}
+     */
+    function isSnakeUnit(unit) {
+        var check = false;
+    
+        if (snake.includes(unit)) {
+            check = true;
+        }
+        return check;
+    }
+    /*
+     * проверка на еду
+     * @param unit
+     * @returns {boolean}
+     */
+    function haveFood(unit) {
+        var check = false;
+        var unit_classes = unit.getAttribute('class').split(' ');
+    
+        // Если еда
+        if (unit_classes.includes('food-unit')) {
+            check = true;
+            createFood();
+            score++;
+            var viewScore = document.querySelector(".score");
+            viewScore.innerHTML = "Total score: " + score;
+        }
+        return check;
+    }
     
     /*
     if (new_unit == undefined) {
@@ -173,49 +214,6 @@ function teleport(coord_y, coord_x) {
     return unit;
 } 
 */
-
-
-function obstacleOnPath(unit) {
-    var obstacleCheck = false;
-    var unitClasses = unit.getAttribute("class").split(" ");
-    if (unitClasses.includes("problem-unit")) {
-        obstacleCheck = true;
-    }
-    return obstacleCheck;
-}
-
-/*
- * Проверка на змейку
- * @param unit
- * @returns {boolean}
- */
-function isSnakeUnit(unit) {
-    var check = false;
-
-    if (snake.includes(unit)) {
-        check = true;
-    }
-    return check;
-}
-/*
- * проверка на еду
- * @param unit
- * @returns {boolean}
- */
-function haveFood(unit) {
-    var check = false;
-    var unit_classes = unit.getAttribute('class').split(' ');
-
-    // Если еда
-    if (unit_classes.includes('food-unit')) {
-        check = true;
-        createFood();
-        score++;
-        var viewScore = document.querySelector(".score");
-        viewScore.innerHTML = "Total score: " + score;
-    }
-    return check;
-}
 
 /**
  * Создание еды
